@@ -1,14 +1,20 @@
 package ua.ithillel.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
+@NoArgsConstructor
+@EqualsAndHashCode
 public class Order {
     private static int lastId = 0;
     private Integer id;
+    @JsonFormat(pattern = "dd.MM.yyyy")
     private LocalDate date;
     private double cost;
     private List<Product> products;
