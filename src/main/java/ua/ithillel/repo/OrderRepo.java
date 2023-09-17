@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface OrderRepo {
     List<Order> getAll();
-    Order getById(int id);
+    Order getById(Integer id);
     boolean add(Order order);
-    boolean remove(int id);
-    boolean existsById(int id);
+    boolean remove(Integer id);
+    boolean existsById(Integer id);
 }

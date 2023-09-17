@@ -34,7 +34,7 @@ public class MyOrderRepository implements OrderRepo {
         return orders.values().stream().toList();
     }
     @Override
-    public Order getById(int id){
+    public Order getById(Integer id){
         validateId(id);
         return Optional.ofNullable(orders.get(id))
                 .orElseThrow(() -> new OrderNotFoundException(id));
@@ -51,7 +51,7 @@ public class MyOrderRepository implements OrderRepo {
     }
 
     @Override
-    public boolean remove(int id){
+    public boolean remove(Integer id){
         validateId(id);
         if(orders.remove(id) == null){
             throw new OrderNotFoundException(id);
@@ -60,11 +60,11 @@ public class MyOrderRepository implements OrderRepo {
     }
 
     @Override
-    public boolean existsById(int id) {
+    public boolean existsById(Integer id) {
         return orders.containsKey(id);
     }
 
-    private void validateId(int id) {
+    private void validateId(Integer id) {
         if (id < 0) {
             throw new IllegalArgumentException("Invalid ID: ID should not be negative. Given ID: " + id);
         }
