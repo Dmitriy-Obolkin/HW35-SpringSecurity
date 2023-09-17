@@ -7,9 +7,7 @@ import ua.ithillel.exception.OrderNotFoundException;
 import ua.ithillel.model.Order;
 import ua.ithillel.model.Product;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 

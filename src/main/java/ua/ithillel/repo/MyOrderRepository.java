@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Repository
 public class MyOrderRepository implements OrderRepo {
-    private Map<Integer, Order> orders = new HashMap<>();
+    private final Map<Integer, Order> orders = new HashMap<>();
 
     @PostConstruct
     public void init(){
