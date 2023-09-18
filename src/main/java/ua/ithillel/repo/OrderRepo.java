@@ -7,6 +7,6 @@ import java.util.List;
 public interface OrderRepo {
     List<Order> getAll();
     Order getById(Integer id);
-    boolean add(Order order);
+    Order add(Order order);
     boolean remove(Integer id);
 }

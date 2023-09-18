@@ -5,7 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.stereotype.Component;
-import ua.ithillel.util.SessionOperation;
 
 @Component
 @RequiredArgsConstructor
@@ -15,7 +14,7 @@ public class HibernateTransactionManager {
     public <T> T executeInsideTransaction(SessionOperation<T> operation){
         Transaction transaction = null;
 
-        try (Session session = sessionFactory.openSession()) {
+        try (Session session = sessionFactory.getCurrentSession()) {
             transaction = session.beginTransaction();
 
             T result = operation.execute(session);

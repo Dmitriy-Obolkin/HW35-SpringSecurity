@@ -28,11 +28,11 @@ public class OrderMySqlJpaRepo implements OrderRepo{
     }
 
     @Override
-    public boolean add(Order order) {
+    public Order add(Order order) {
         return transactionManager.executeInsideTransaction(session -> {
-            session.persist(order);
+            Order managedOrder = session.merge(order);
             session.flush();
-            return true;
+            return managedOrder;
         });
     }
 

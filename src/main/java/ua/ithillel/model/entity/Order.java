@@ -11,7 +11,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Builder
 @Entity
 @Table(name = "t_order")
 public class Order {
@@ -27,7 +26,7 @@ public class Order {
     @Column(name = "cost")
     private double cost;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinTable(
             name = "t_order_product",
             joinColumns = @JoinColumn(name = "order_id"),
@@ -45,5 +44,9 @@ public class Order {
         return products.stream()
                 .mapToDouble(Product::getCost)
                 .sum();
+    }
+
+    public void recalculateCost(){
+        this.cost = calculateTotalCost(this.products);
     }
 }
