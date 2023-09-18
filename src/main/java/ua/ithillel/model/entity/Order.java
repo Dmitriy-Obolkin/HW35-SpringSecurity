@@ -1,33 +1,44 @@
-package ua.ithillel.model;
+package ua.ithillel.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EqualsAndHashCode
+@Builder
+@Entity
+@Table(name = "t_order")
 public class Order {
-    private static int lastId = 0;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
+
     @JsonFormat(pattern = "dd.MM.yyyy")
+    @Column(name = "date")
     private LocalDate date;
+
+    @Column(name = "cost")
     private double cost;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "t_order_product",
+            joinColumns = @JoinColumn(name = "order_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
     private List<Product> products;
 
     public Order(List<Product> products) {
-        this.id = getNextId();
         this.date = LocalDate.now();
         this.products = products;
         this.cost = calculateTotalCost(products);
-    }
-
-    private static synchronized int getNextId() {
-        return ++lastId;
     }
 
     private double calculateTotalCost(List<Product> products) {

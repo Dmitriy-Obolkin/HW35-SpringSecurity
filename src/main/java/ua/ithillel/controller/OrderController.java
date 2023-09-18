@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.ithillel.exception.OrderNotFoundException;
-import ua.ithillel.model.Order;
-import ua.ithillel.repo.MyOrderRepository;
+import ua.ithillel.model.entity.Order;
+import ua.ithillel.repo.OrderMySqlJpaRepo;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import java.util.List;
 @RequestMapping("/orders")
 @RequiredArgsConstructor
 public class OrderController {
-    private final MyOrderRepository repository;
+    private final OrderMySqlJpaRepo repository;
 
     @GetMapping
     ResponseEntity<List<Order>> getAll(){
@@ -22,7 +22,11 @@ public class OrderController {
 
     @GetMapping("/{id}")
     ResponseEntity<Order> getById(@PathVariable("id") Integer id) throws OrderNotFoundException, IllegalArgumentException {
-        return ResponseEntity.ok(repository.getById(id));
+        Order order = repository.getById(id);
+        if(order == null){
+            throw new OrderNotFoundException(id);
+        }
+        return ResponseEntity.ok(order);
     }
 
     @PostMapping
