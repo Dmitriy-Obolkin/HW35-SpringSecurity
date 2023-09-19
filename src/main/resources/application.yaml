@@ -4,3 +4,16 @@ spring:
   web:
     resources:
       add-mappings: false
+logging:
+  level:
+    root: INFO
+    org.springframework.web: INFO
+  file:
+    name: logs/app.log
+
+  logback:
+    rolling policy:
+      max-file-size: 2MB
+      max-history: 10
+  pattern:
+    file: "%d{yyyy-MM-dd HH:mm:ss} - %level %thread - %msg%n"
