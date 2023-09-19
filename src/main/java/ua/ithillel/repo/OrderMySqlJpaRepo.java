@@ -3,7 +3,6 @@ package ua.ithillel.repo;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
-import ua.ithillel.exception.OrderNotFoundException;
 import ua.ithillel.model.entity.Order;
 import ua.ithillel.util.HibernateTransactionManager;
 

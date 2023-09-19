@@ -5,12 +5,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.ithillel.exception.OrderNotFoundException;
 import ua.ithillel.model.entity.Order;
-import ua.ithillel.model.entity.Product;
 import ua.ithillel.repo.OrderMySqlJpaRepo;
-import ua.ithillel.repo.ProductMySqlJpaRepo;
 import ua.ithillel.service.OrderService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -18,7 +15,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderMySqlJpaRepo orderRepository;
-    private final ProductMySqlJpaRepo productRepository;
     private final OrderService orderService;
 
     @GetMapping
