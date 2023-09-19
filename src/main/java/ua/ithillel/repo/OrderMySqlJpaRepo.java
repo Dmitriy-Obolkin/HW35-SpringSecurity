@@ -3,6 +3,7 @@ package ua.ithillel.repo;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
+import ua.ithillel.exception.OrderNotFoundException;
 import ua.ithillel.model.entity.Order;
 import ua.ithillel.util.HibernateTransactionManager;
 
@@ -37,10 +38,7 @@ public class OrderMySqlJpaRepo implements OrderRepo{
     }
 
     @Override
-    public boolean remove(Integer id) {
-        validateId(id);
-
-        Order order = getById(id);
+    public boolean remove(Order order) {
         return transactionManager.executeInsideTransaction(session -> {
             session.remove(order);
             return true;

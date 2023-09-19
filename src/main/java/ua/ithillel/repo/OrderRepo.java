@@ -8,5 +8,5 @@ public interface OrderRepo {
     List<Order> getAll();
     Order getById(Integer id);
     Order add(Order order);
-    boolean remove(Integer id);
+    boolean remove(Order order);
 }

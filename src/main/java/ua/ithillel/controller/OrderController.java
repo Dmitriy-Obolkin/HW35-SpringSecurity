@@ -8,6 +8,7 @@ import ua.ithillel.model.entity.Order;
 import ua.ithillel.model.entity.Product;
 import ua.ithillel.repo.OrderMySqlJpaRepo;
 import ua.ithillel.repo.ProductMySqlJpaRepo;
+import ua.ithillel.service.OrderService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import java.util.List;
 public class OrderController {
     private final OrderMySqlJpaRepo orderRepository;
     private final ProductMySqlJpaRepo productRepository;
+    private final OrderService orderService;
 
     @GetMapping
     ResponseEntity<List<Order>> getAll(){
@@ -35,30 +37,13 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<Order> addOrder(@RequestBody Order order){
-        List<Product> checkedProducts = new ArrayList<>();
-
-        for(Product product : order.getProducts()) {
-            if(product.getId() == null){
-                Product savedProduct = productRepository.save(product);
-                checkedProducts.add(savedProduct);
-            } else {
-                Product existingProduct = productRepository.findById(product.getId());
-                if (existingProduct != null){
-                    checkedProducts.add(existingProduct);
-                }
-            }
-        }
-
-        order.setProducts(checkedProducts);
-        order.recalculateCost();
-        Order savedOrder = orderRepository.add(order);
-        return ResponseEntity.ok(savedOrder);
+        Order savedorder = orderService.addOrder(order);
+        return ResponseEntity.ok(savedorder);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Order> removeOrder(@PathVariable("id") Integer id) throws OrderNotFoundException, IllegalArgumentException {
-        Order order = orderRepository.getById(id);
-        orderRepository.remove(id);
-        return ResponseEntity.ok(order);
+        Order removedOrder = orderService.removeOrder(id);
+        return ResponseEntity.ok(removedOrder);
     }
 }
