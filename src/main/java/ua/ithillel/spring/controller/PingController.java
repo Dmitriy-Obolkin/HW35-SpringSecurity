@@ -1,4 +1,4 @@
-package ua.ithillel.controller;
+package ua.ithillel.spring.controller;
 
 import org.springframework.web.bind.annotation.*;
 

@@ -1,4 +1,4 @@
-package ua.ithillel.exception;
+package ua.ithillel.spring.exception;
 
 public class OrderAlreadyExistsException extends RuntimeException{
     public OrderAlreadyExistsException(int orderId) {

@@ -1,4 +1,4 @@
-package ua.ithillel.exception;
+package ua.ithillel.spring.exception;
 
 public class OrderNotFoundException extends RuntimeException{
     public OrderNotFoundException(int id){
