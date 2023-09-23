@@ -5,7 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import ua.ithillel.spring.model.ErrorDTO;
+import ua.ithillel.spring.model.dto.ErrorDTO;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {

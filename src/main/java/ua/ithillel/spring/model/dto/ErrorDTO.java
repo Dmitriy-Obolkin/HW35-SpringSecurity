@@ -1,4 +1,4 @@
-package ua.ithillel.spring.model;
+package ua.ithillel.spring.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -3,17 +3,17 @@ package ua.ithillel.spring.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.ithillel.spring.exception.OrderNotFoundException;
-import ua.ithillel.spring.model.dto.OrderDTO;
-import ua.ithillel.spring.service.OrderService;
+import ua.ithillel.spring.model.dto.ProductDTO;
+import ua.ithillel.spring.service.ProductService;
 
 import java.util.Optional;
 
+
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/products")
 @RequiredArgsConstructor
-public class OrderController {
-    private final OrderService orderService;
+public class ProductController {
+    public final ProductService productService;
 
 //    @GetMapping
 //    ResponseEntity<List<Order>> getAll(){
@@ -21,14 +21,12 @@ public class OrderController {
 //    }
 
     @GetMapping("/{id}")
-    ResponseEntity<Optional<OrderDTO>> findById(@PathVariable("id") Integer id)
-            throws OrderNotFoundException, IllegalArgumentException {
-
-        Optional<OrderDTO> order = orderService.findById(id);
-//        if(order == null){
+    ResponseEntity<Optional<ProductDTO>> findById(@PathVariable("id") Integer id) throws IllegalArgumentException {
+        Optional<ProductDTO> productDTO = productService.findById(id);
+//        if(productDTO == null){
 //            throw new OrderNotFoundException(id);
 //        }
-        return ResponseEntity.ok(order);
+        return ResponseEntity.ok(productDTO);
     }
 
 //    @PostMapping

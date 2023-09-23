@@ -4,7 +4,7 @@ SHOW TABLES;
 
 CREATE TABLE t_product (
                          id INT PRIMARY KEY AUTO_INCREMENT,
-                         name VARCHAR(255) NOT NULL,
+                         name VARCHAR(255) NOT NULL UNIQUE,
                          cost DOUBLE NOT NULL
 );
 
@@ -22,6 +22,8 @@ CREATE TABLE t_order_product (
 );
 
 select * from t_product;
+select * from t_order;
+select * from t_order_product;
 
 drop table t_order;
 drop table t_order_product;
