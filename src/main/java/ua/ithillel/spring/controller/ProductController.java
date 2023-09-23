@@ -6,27 +6,26 @@ import org.springframework.web.bind.annotation.*;
 import ua.ithillel.spring.model.dto.ProductDTO;
 import ua.ithillel.spring.service.ProductService;
 
-import java.util.Optional;
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
 public class ProductController {
-    public final ProductService productService;
 
-//    @GetMapping
-//    ResponseEntity<List<Order>> getAll(){
-//        return ResponseEntity.ok(orderRepository.getAll());
-//    }
+    private final ProductService productService;
 
     @GetMapping("/{id}")
-    ResponseEntity<Optional<ProductDTO>> findById(@PathVariable("id") Integer id) throws IllegalArgumentException {
-        Optional<ProductDTO> productDTO = productService.findById(id);
-//        if(productDTO == null){
-//            throw new OrderNotFoundException(id);
-//        }
-        return ResponseEntity.ok(productDTO);
+    ResponseEntity<ProductDTO> findById(@PathVariable("id") Integer id) throws IllegalArgumentException {
+
+        return ResponseEntity.ok(productService.findById(id));
+    }
+
+    @GetMapping
+    ResponseEntity<List<ProductDTO>> findAll(){
+
+        return ResponseEntity.ok(productService.findAll());
     }
 
 //    @PostMapping

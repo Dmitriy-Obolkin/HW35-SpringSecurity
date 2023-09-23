@@ -3,11 +3,11 @@ package ua.ithillel.spring.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ua.ithillel.spring.exception.OrderNotFoundException;
+import ua.ithillel.spring.exception.EntityNotFoundException;
 import ua.ithillel.spring.model.dto.OrderDTO;
 import ua.ithillel.spring.service.OrderService;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/orders")
@@ -15,20 +15,16 @@ import java.util.Optional;
 public class OrderController {
     private final OrderService orderService;
 
-//    @GetMapping
-//    ResponseEntity<List<Order>> getAll(){
-//        return ResponseEntity.ok(orderRepository.getAll());
-//    }
-
     @GetMapping("/{id}")
-    ResponseEntity<Optional<OrderDTO>> findById(@PathVariable("id") Integer id)
-            throws OrderNotFoundException, IllegalArgumentException {
+    ResponseEntity<OrderDTO> findById(@PathVariable("id") Integer id)
+            throws EntityNotFoundException, IllegalArgumentException {
 
-        Optional<OrderDTO> order = orderService.findById(id);
-//        if(order == null){
-//            throw new OrderNotFoundException(id);
-//        }
-        return ResponseEntity.ok(order);
+        return ResponseEntity.ok(orderService.findById(id));
+    }
+
+    @GetMapping
+    ResponseEntity<List<OrderDTO>> findAll(){
+        return ResponseEntity.ok(orderService.findAll());
     }
 
 //    @PostMapping

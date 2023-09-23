@@ -1,25 +1,12 @@
 package ua.ithillel.spring.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import ua.ithillel.spring.database.repository.ProductRepository;
 import ua.ithillel.spring.model.dto.ProductDTO;
-import ua.ithillel.spring.model.mapper.ProductMapper;
 
-import java.util.Optional;
+import java.util.List;
 
-@Service
-@RequiredArgsConstructor
-public class ProductService {
+public interface ProductService {
 
-    public final ProductRepository productRepository;
-    private final ProductMapper productMapper;
+    ProductDTO findById(Integer id);
 
-    @Transactional
-    public Optional<ProductDTO> findById(Integer id){
-        return productRepository.findById(id)
-                .map(productMapper::productToProductDTO);
-    }
-
+    List<ProductDTO> findAll();
 }

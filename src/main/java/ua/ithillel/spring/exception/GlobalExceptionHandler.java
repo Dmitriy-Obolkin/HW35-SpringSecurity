@@ -9,8 +9,8 @@ import ua.ithillel.spring.model.dto.ErrorDTO;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(OrderNotFoundException.class)
-    public ResponseEntity<String> handleOrderNotFoundException(OrderNotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleOrderNotFoundException(EntityNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 

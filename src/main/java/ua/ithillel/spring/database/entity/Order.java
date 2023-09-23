@@ -33,10 +33,4 @@ public class Order implements BaseEntity<Integer> {
     @Builder.Default
     @OneToMany(mappedBy = "order")
     private List<OrderProduct> orderProducts = new ArrayList<>();
-
-    public void ds(){
-        for (int i = 0; i < 10; i++) {
-            Product product = orderProducts.get(i).getProduct();
-        }
-    }
 }
