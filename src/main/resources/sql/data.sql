@@ -10,10 +10,10 @@ INSERT INTO t_product (name, cost) VALUES ('Product 9', 90.0);
 INSERT INTO t_product (name, cost) VALUES ('Product 10', 100.0);
 
 
-INSERT INTO t_order (date, cost) VALUES ('2023-09-21', 120.0);
-INSERT INTO t_order (date, cost) VALUES ('2023-09-22', 150.0);
-INSERT INTO t_order (date, cost) VALUES ('2023-09-23', 200.0);
-INSERT INTO t_order (date, cost) VALUES ('2023-09-24', 180.0);
+INSERT INTO t_order (date, cost) VALUES ('2023-09-21', 30.0);
+INSERT INTO t_order (date, cost) VALUES ('2023-09-22', 120.0);
+INSERT INTO t_order (date, cost) VALUES ('2023-09-23', 220.0);
+INSERT INTO t_order (date, cost) VALUES ('2023-09-24', 190.0);
 
 
 INSERT INTO t_order_product (order_id, product_id) VALUES (1, 1);

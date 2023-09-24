@@ -12,4 +12,7 @@ public interface ProductRepository extends Repository<Product, Integer> {
 
     Optional<List<Product>> findAll();
 
+    Optional<Product> save(Product product);
+
+    void deleteById(Integer id);
 }

@@ -3,6 +3,7 @@ package ua.ithillel.spring.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ua.ithillel.spring.database.entity.Order;
 import ua.ithillel.spring.database.repository.OrderRepository;
 import ua.ithillel.spring.exception.EntityNotFoundException;
 import ua.ithillel.spring.model.dto.OrderDTO;
@@ -21,36 +22,58 @@ public class OrderServiceDefault implements OrderService{
 
     @Override
     @Transactional
-    public OrderDTO findById(Integer id){
+    public OrderDTO findById(Integer id)
+            throws IllegalArgumentException, EntityNotFoundException {
 
         validateId(id);
 
-        Optional<OrderDTO> orderDTOOpt = orderRepository.findById(id)
-                .map(orderMapper::orderToOrderDTO);
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order with ID " + id + " not found."));
 
-        if(orderDTOOpt.isEmpty()){
-            throw new EntityNotFoundException("Order with ID " + id + " not found.");
-        }
-
-        return orderDTOOpt.get();
+        return orderMapper.orderToOrderDTO(order);
     }
 
     @Override
-    public List<OrderDTO> findAll() {
+    @Transactional
+    public List<OrderDTO> findAll()
+            throws EntityNotFoundException {
 
-        Optional<List<OrderDTO>> orderDTOsOpt = orderRepository.findAll()
+        return orderRepository.findAll()
                 .map(orders -> orders.stream()
                         .map(orderMapper::orderToOrderDTO)
-                        .collect(Collectors.toList()));
-
-        if(orderDTOsOpt.isEmpty()){
-            throw new EntityNotFoundException("List Products is empty");
-        }
-
-        return orderDTOsOpt.get();
+                        .collect(Collectors.toList()))
+                .orElseThrow(() -> new EntityNotFoundException("List Orders is empty"));
     }
 
-    private void validateId(Integer id){
+    @Override
+    @Transactional
+    public OrderDTO addOrder(OrderDTO orderDTO)
+            throws RuntimeException {
+
+        Order order = orderMapper.orderDTOToOrder(orderDTO);
+        Order savedOrderOpt = orderRepository.save(order)
+                .orElseThrow(() -> new RuntimeException("Failed to save the order: " + orderDTO));
+
+        return orderMapper.orderToOrderDTO(savedOrderOpt);
+    }
+
+    @Override
+    @Transactional
+    public OrderDTO removeOrderById(Integer id)
+            throws EntityNotFoundException, IllegalArgumentException {
+
+        validateId(id);
+
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Order with ID " + id + " not found."));
+        orderRepository.deleteById(id);
+
+        return orderMapper.orderToOrderDTO(order);
+    }
+
+    private void validateId(Integer id)
+            throws IllegalArgumentException {
+
         if(id < 0){
             throw new IllegalArgumentException("Invalid ID: ID should not be negative. Given ID: " + id);
         }

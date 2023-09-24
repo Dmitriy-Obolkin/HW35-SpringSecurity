@@ -11,4 +11,8 @@ public interface OrderRepository extends Repository<Order, Integer> {
     Optional<Order> findById(Integer id);
 
     Optional<List<Order>> findAll();
+
+    Optional<Order> save(Order order);
+
+    void deleteById(Integer id);
 }

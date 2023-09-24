@@ -1,6 +1,7 @@
 package ua.ithillel.spring.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ua.ithillel.spring.exception.EntityNotFoundException;
@@ -16,26 +17,47 @@ public class OrderController {
     private final OrderService orderService;
 
     @GetMapping("/{id}")
-    ResponseEntity<OrderDTO> findById(@PathVariable("id") Integer id)
-            throws EntityNotFoundException, IllegalArgumentException {
+    ResponseEntity<?> findById(@PathVariable("id") Integer id) {
 
-        return ResponseEntity.ok(orderService.findById(id));
+        try{
+            return ResponseEntity.ok(orderService.findById(id));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
     }
 
     @GetMapping
-    ResponseEntity<List<OrderDTO>> findAll(){
-        return ResponseEntity.ok(orderService.findAll());
+    ResponseEntity<?> findAll() {
+
+        try{
+            return ResponseEntity.ok(orderService.findAll());
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        }
     }
 
-//    @PostMapping
-//    public ResponseEntity<Order> addOrder(@RequestBody Order order){
-//        Order savedorder = orderService.addOrder(order);
-//        return ResponseEntity.ok(savedorder);
-//    }
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Order> removeOrder(@PathVariable("id") Integer id) throws OrderNotFoundException, IllegalArgumentException {
-//        Order removedOrder = orderService.removeOrder(id);
-//        return ResponseEntity.ok(removedOrder);
-//    }
+    @PostMapping
+    public ResponseEntity<OrderDTO> addOrder(@RequestBody OrderDTO orderDTO) {
+
+        return ResponseEntity.ok(orderService.addOrder(orderDTO));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> removeOrder(@PathVariable("id") Integer id) {
+
+        try{
+            return ResponseEntity.ok(orderService.removeOrderById(id));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(e.getMessage());
+        }
+    }
 }
