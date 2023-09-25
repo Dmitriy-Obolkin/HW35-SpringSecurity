@@ -8,9 +8,6 @@ import ua.ithillel.spring.exception.EntityNotFoundException;
 import ua.ithillel.spring.model.dto.ProductDTO;
 import ua.ithillel.spring.service.ProductService;
 
-import java.util.List;
-
-
 @RestController
 @RequestMapping("/products")
 @RequiredArgsConstructor
@@ -44,9 +41,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> addProduct(@RequestBody ProductDTO productDTO) {
 
-        return ResponseEntity.ok(productService.addProduct(productDTO));
+        try {
+            return ResponseEntity.ok(productService.addProduct(productDTO));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")

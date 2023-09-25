@@ -14,7 +14,7 @@ import java.util.Arrays;
 @Slf4j
 @Component
 public class LoggingAspect {
-    @Pointcut("execution(* ua.ithillel.repo..*.*(..))")
+    @Pointcut("execution(* ua.ithillel.spring.database.repository..*.*(..))")
     private void repositoryMethods() {
 
     }

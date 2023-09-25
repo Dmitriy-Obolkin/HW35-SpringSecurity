@@ -6,6 +6,7 @@ import ua.ithillel.spring.database.entity.Product;
 import java.util.List;
 import java.util.Optional;
 
+@org.springframework.stereotype.Repository
 public interface ProductRepository extends Repository<Product, Integer> {
 
     Optional<Product> findById(Integer id);

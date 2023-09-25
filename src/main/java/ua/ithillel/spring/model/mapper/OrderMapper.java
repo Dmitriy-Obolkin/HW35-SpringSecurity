@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
         unmappedTargetPolicy = ReportingPolicy.IGNORE,
         uses = ProductMapper.class)
 public abstract class OrderMapper {
+
     @Autowired
     private ProductMapper productMapper;
 
@@ -24,13 +25,27 @@ public abstract class OrderMapper {
     )
     public abstract OrderDTO orderToOrderDTO(Order order);
 
+    @Mapping(
+            source = "orderDTO.productDTOs",
+            target = "orderProducts",
+            qualifiedByName = "productDTOsToOrderProducts"
+    )
     public abstract Order orderDTOToOrder(OrderDTO orderDTO);
 
     @Named("orderProductsToProductDTOs")
-    public List<ProductDTO> orderProductsToProductDTOs(List<OrderProduct> orderProducts) { //@Context ProductMapper productMapper
+    public List<ProductDTO> orderProductsToProductDTOs(List<OrderProduct> orderProducts) {
         return orderProducts.stream()
                 .map(OrderProduct::getProduct)
                 .map(productMapper::productToProductDTO)
                 .collect(Collectors.toList());
+    }
+
+    @Named("productDTOsToOrderProducts")
+    List<OrderProduct> productDTOsToOrderProducts(List<ProductDTO> productDTOs) {
+        return productDTOs.stream().map(productDTO -> {
+            OrderProduct orderProduct = new OrderProduct();
+            orderProduct.setProduct(productMapper.productDTOToProduct(productDTO));
+            return orderProduct;
+        }).collect(Collectors.toList());
     }
 }

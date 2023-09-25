@@ -6,6 +6,7 @@ import ua.ithillel.spring.database.entity.Order;
 import java.util.List;
 import java.util.Optional;
 
+@org.springframework.stereotype.Repository
 public interface OrderRepository extends Repository<Order, Integer> {
 
     Optional<Order> findById(Integer id);

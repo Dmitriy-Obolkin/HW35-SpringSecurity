@@ -11,7 +11,7 @@ public interface OrderService {
 
     List<OrderDTO> findAll() throws EntityNotFoundException;
 
-    OrderDTO addOrder(OrderDTO orderDTO) throws RuntimeException;
+    OrderDTO addOrder(OrderDTO orderDTO) throws EntityNotFoundException, RuntimeException;
 
     OrderDTO removeOrderById(Integer id) throws EntityNotFoundException, IllegalArgumentException;
 }

@@ -4,13 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ua.ithillel.spring.database.entity.Order;
+import ua.ithillel.spring.database.entity.OrderProduct;
+import ua.ithillel.spring.database.entity.Product;
 import ua.ithillel.spring.database.repository.OrderRepository;
+import ua.ithillel.spring.database.repository.ProductRepository;
 import ua.ithillel.spring.exception.EntityNotFoundException;
 import ua.ithillel.spring.model.dto.OrderDTO;
 import ua.ithillel.spring.model.mapper.OrderMapper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +21,7 @@ public class OrderServiceDefault implements OrderService{
 
     private final OrderRepository orderRepository;
     private final OrderMapper orderMapper;
+    private final ProductRepository productRepository;
 
     @Override
     @Transactional
@@ -48,13 +51,23 @@ public class OrderServiceDefault implements OrderService{
     @Override
     @Transactional
     public OrderDTO addOrder(OrderDTO orderDTO)
-            throws RuntimeException {
+            throws EntityNotFoundException, RuntimeException {
+
 
         Order order = orderMapper.orderDTOToOrder(orderDTO);
-        Order savedOrderOpt = orderRepository.save(order)
-                .orElseThrow(() -> new RuntimeException("Failed to save the order: " + orderDTO));
+        Order savedOrder = orderRepository.save(order)
+                .orElseThrow(() -> new RuntimeException("Failed to save the order: " + order));
 
-        return orderMapper.orderToOrderDTO(savedOrderOpt);
+        List<OrderProduct> orderProducts = savedOrder.getOrderProducts();
+        for (OrderProduct op : orderProducts) {
+            Product product = productRepository.findById(op.getProduct().getId())
+                        .orElseThrow(() -> new EntityNotFoundException("Product with ID " + op.getProduct().getId() + " not found."));
+            op.setProduct(product);
+            op.setOrder(savedOrder);
+        }
+
+        orderRepository.save(savedOrder);
+        return orderMapper.orderToOrderDTO(savedOrder);
     }
 
     @Override

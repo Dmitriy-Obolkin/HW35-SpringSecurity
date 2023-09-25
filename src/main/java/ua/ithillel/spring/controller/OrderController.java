@@ -8,8 +8,6 @@ import ua.ithillel.spring.exception.EntityNotFoundException;
 import ua.ithillel.spring.model.dto.OrderDTO;
 import ua.ithillel.spring.service.OrderService;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/orders")
 @RequiredArgsConstructor
@@ -42,9 +40,17 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDTO> addOrder(@RequestBody OrderDTO orderDTO) {
+    public ResponseEntity<?> addOrder(@RequestBody OrderDTO orderDTO) {
 
-        return ResponseEntity.ok(orderService.addOrder(orderDTO));
+        try {
+            return ResponseEntity.ok(orderService.addOrder(orderDTO));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(e.getMessage());
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
