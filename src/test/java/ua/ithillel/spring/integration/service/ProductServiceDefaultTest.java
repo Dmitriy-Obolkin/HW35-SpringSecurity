@@ -37,13 +37,14 @@ public class ProductServiceDefaultTest {
     }
 
     @Test
-    void saveTest() {
+    void addProductTest() {
 
         ProductDTO savedProduct = productService.addProduct(testProduct1);
+        assertNotNull(savedProduct.getId());
+        testProduct1.setId(savedProduct.getId());
 
         assertNotNull(savedProduct);
-        assertEquals(testProduct1.getName(), savedProduct.getName());
-        assertEquals(testProduct1.getCost(), savedProduct.getCost());
+        assertEquals(testProduct1, savedProduct);
     }
 
     @Test
@@ -51,37 +52,44 @@ public class ProductServiceDefaultTest {
 
         ProductDTO savedProduct = productService.addProduct(testProduct1);
         assertNotNull(savedProduct.getId());
+        testProduct1.setId(savedProduct.getId());
         ProductDTO productById = productService.findById(savedProduct.getId());
 
         assertNotNull(productById);
-        assertEquals(testProduct1.getName(), productById.getName());
-        assertEquals(testProduct1.getCost(), productById.getCost());
+        assertEquals(testProduct1, productById);
     }
 
     @Test
     void findAllTest() {
 
-        productService.addProduct(testProduct1);
-        productService.addProduct(testProduct2);
+        ProductDTO savedProductDTO1 = productService.addProduct(testProduct1);
+        assertNotNull(savedProductDTO1.getId());
+        testProduct1.setId(savedProductDTO1.getId());
+
+        ProductDTO savedProductDTO2 = productService.addProduct(testProduct2);
+        assertNotNull(savedProductDTO2.getId());
+        testProduct2.setId(savedProductDTO2.getId());
 
         List<ProductDTO> products = productService.findAll();
 
         assertNotNull(products);
         assertTrue(products.size() >= 2);
         assertTrue(products.stream()
-                .anyMatch(p -> testProduct1.getName().equals(p.getName())));
+                .anyMatch(p -> testProduct1.getId().equals(p.getId())));
         assertTrue(products.stream()
-                .anyMatch(p -> testProduct2.getName().equals(p.getName())));
+                .anyMatch(p -> testProduct2.getId().equals(p.getId())));
     }
 
     @Test
-    void deleteByIdTest() {
+    void removeProductByIdTest() {
 
         ProductDTO savedProduct = productService.addProduct(testProduct1);
+        assertNotNull(savedProduct.getId());
         assertNotNull(productService.findById(savedProduct.getId()));
 
         productService.removeProductById(savedProduct.getId());
 
-        assertThrows(EntityNotFoundException.class, () -> productService.findById(savedProduct.getId()));
+        assertThrows(EntityNotFoundException.class,
+                () -> productService.findById(savedProduct.getId()));
     }
 }

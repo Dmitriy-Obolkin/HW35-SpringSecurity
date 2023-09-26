@@ -46,9 +46,7 @@ class ProductRepositoryTest {
         Optional<Product> productById = productRepository.findById(savedProduct.get().getId());
 
         assertTrue(productById.isPresent());
-        assertEquals(testProduct1.getName(), productById.get().getName());
-        assertEquals(testProduct1.getCost(), productById.get().getCost());
-        assertEquals(testProduct1.getOrderProducts(), productById.get().getOrderProducts());
+        assertEquals(testProduct1, productById.get());
     }
 
     @Test
@@ -62,9 +60,9 @@ class ProductRepositoryTest {
         assertTrue(products.isPresent());
         assertTrue(products.get().size() >= 2);
         assertTrue(products.get().stream()
-                .anyMatch(p -> testProduct1.getName().equals(p.getName())));
+                .anyMatch(p -> testProduct1.getId().equals(p.getId())));
         assertTrue(products.get().stream()
-                .anyMatch(p -> testProduct2.getName().equals(p.getName())));
+                .anyMatch(p -> testProduct2.getId().equals(p.getId())));
     }
 
     @Test
