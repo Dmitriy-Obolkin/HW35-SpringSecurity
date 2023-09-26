@@ -1,5 +1,6 @@
 package ua.ithillel.spring.integration.database.repository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,57 +21,56 @@ class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
-    @Test
-    void saveAndFindByIdTest() {
+    Product testProduct1;
+    Product testProduct2;
 
-        Product product = Product.builder()
+    @BeforeEach
+    void setUp() {
+
+        testProduct1 = Product.builder()
                 .name("TestProduct1")
                 .cost(10d)
                 .build();
+        testProduct2 = Product.builder()
+                .name("TestProduct2")
+                .cost(20d)
+                .build();
+    }
 
-        Optional<Product> savedProduct = productRepository.save(product);
+    @Test
+    void saveAndFindByIdTest() {
+
+        Optional<Product> savedProduct = productRepository.save(testProduct1);
         assertTrue(savedProduct.isPresent());
 
         Optional<Product> productById = productRepository.findById(savedProduct.get().getId());
 
         assertTrue(productById.isPresent());
-        assertEquals(product.getName(), productById.get().getName());
-        assertEquals(product.getCost(), productById.get().getCost());
-        assertEquals(product.getOrderProducts(), productById.get().getOrderProducts());
+        assertEquals(testProduct1.getName(), productById.get().getName());
+        assertEquals(testProduct1.getCost(), productById.get().getCost());
+        assertEquals(testProduct1.getOrderProducts(), productById.get().getOrderProducts());
     }
 
     @Test
     void findAllTest() {
 
-        Product product1 = Product.builder()
-                .name("TestProduct1")
-                .cost(10d)
-                .build();
-        Product product2 = Product.builder()
-                .name("TestProduct2")
-                .cost(20d)
-                .build();
-
-        productRepository.save(product1);
-        productRepository.save(product2);
+        productRepository.save(testProduct1);
+        productRepository.save(testProduct2);
 
         Optional<List<Product>> products = productRepository.findAll();
 
         assertTrue(products.isPresent());
         assertTrue(products.get().size() >= 2);
-        assertTrue(products.get().stream().anyMatch(p -> product1.getName().equals(p.getName())));
-        assertTrue(products.get().stream().anyMatch(p -> product2.getName().equals(p.getName())));
+        assertTrue(products.get().stream()
+                .anyMatch(p -> testProduct1.getName().equals(p.getName())));
+        assertTrue(products.get().stream()
+                .anyMatch(p -> testProduct2.getName().equals(p.getName())));
     }
 
     @Test
-    void deleteById() {
+    void deleteByIdTest() {
 
-        Product product1 = Product.builder()
-                .name("TestProduct1")
-                .cost(10d)
-                .build();
-
-        Optional<Product> savedProduct = productRepository.save(product1);
+        Optional<Product> savedProduct = productRepository.save(testProduct1);
 
         assertTrue(savedProduct.isPresent());
         assertTrue(productRepository.findById(savedProduct.get().getId()).isPresent());
