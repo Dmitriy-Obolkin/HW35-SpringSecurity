@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "3fb286c2-99ad-42f1-8708-37e2933fc575",
-		"name": "Hillel HW34-SpringData",
+		"name": "Hillel HW35-SpringSecurity",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "29250016"
 	},
@@ -9,6 +9,21 @@
 		{
 			"name": "getProductById",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "jhnpwd",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "JohnD",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -25,7 +40,7 @@
 					"variable": [
 						{
 							"key": "id",
-							"value": "1222"
+							"value": "1"
 						}
 					]
 				}
@@ -35,6 +50,21 @@
 		{
 			"name": "getAllProducts",
 			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "jhnpwd",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "JohnD",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -46,6 +76,90 @@
 					"port": "8080",
 					"path": [
 						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addProduct",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "root",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Product 11\",\r\n    \"cost\": 110.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/products",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "removeProductById",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "root",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/products/:id",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"products",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "90"
+						}
 					]
 				}
 			},
