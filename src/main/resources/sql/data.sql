@@ -27,3 +27,8 @@ INSERT INTO t_order_product (order_id, product_id) VALUES (3, 7);
 INSERT INTO t_order_product (order_id, product_id) VALUES (3, 8);
 INSERT INTO t_order_product (order_id, product_id) VALUES (4, 9);
 INSERT INTO t_order_product (order_id, product_id) VALUES (4, 10);
+
+
+INSERT INTO t_user (name, password, role) VALUES ('JohnD', '$2a$10$vsb.VUDlNhM0C0V/Fb9Vmucvu/FSsIPVGpnr3PBzd.aiVbv0h94bi', 'USER');
+INSERT INTO t_user (name, password, role) VALUES ('user', '$2a$10$VUMgaC7MWt2yDkKBtiiHqenk7.1.JKKKFYe9/lUgveQkn3P5PIniu', 'USER');
+INSERT INTO t_user (name, password, role) VALUES ('admin', '$2a$10$FNXjqWFwqoolPC6khG/f5O6OvFaueeSRdyLNcP.BCIc/G6g0ZUOsK', 'ADMIN');

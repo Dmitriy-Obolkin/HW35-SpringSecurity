@@ -21,10 +21,19 @@ CREATE TABLE t_order_product (
                          UNIQUE (order_id, product_id)
 );
 
-select * from t_product;
-select * from t_order;
-select * from t_order_product;
+CREATE TABLE t_user (
+                        id INT AUTO_INCREMENT PRIMARY KEY,
+                        name VARCHAR(255) NOT NULL UNIQUE,
+                        password VARCHAR(255) NOT NULL,
+                        role VARCHAR(50) NOT NULL
+);
 
-drop table t_order;
-drop table t_order_product;
-drop table t_product;
+SELECT * FROM t_product;
+SELECT * FROM t_order;
+SELECT * FROM t_order_product;
+SELECT * FROM t_user;
+
+DROP TABLE t_order;
+DROP TABLE t_order_product;
+DROP TABLE t_product;
+DROP TABLE t_user;
